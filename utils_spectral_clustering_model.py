@@ -1,4 +1,4 @@
-#importing libraries 
+# importing libraries 
 import pandas as pd
 from scipy.spatial import distance
 from sklearn.cluster import SpectralClustering
@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 
 def get_distance_matrix(dataset, metric="braycurtis"):
     distance_matrix=distance.squareform(distance.pdist(dataset, metric=metric))
-    #avoiding NaN values
+    # avoiding NaN values
     distance_matrix=pd.DataFrame(distance_matrix).fillna(0).values
     return distance_matrix
 
@@ -33,7 +33,7 @@ def get_accuracy_test(X_train_graph_similarity, X_test_graph_similarity,cluster_
   classes_list=result_classes_per_cluster['class'].to_list()
   mapping_cluster_to_class_dict={clusters_list[i]:classes_list[i] for i in range(len(clusters_list))}
   y_test_predicted_class=[mapping_cluster_to_class_dict[p] for p in y_test_predicted_cluster]
-  #get the accuracy
+  # get the accuracy
   accuracy_test=accuracy_score(y_test,y_test_predicted_class)
   accuracy_test=accuracy_test.round(3)
   return accuracy_test
@@ -67,11 +67,11 @@ def iterated_hold_out_clustering(X:pd.core.frame.DataFrame,y:pd.core.series.Seri
     results['training_accuracy'].append(accuracy_training)
     # testing the model
     X_test_graph=get_test_set_distances(X_test,X_train) 
-    #use the threshold
+    # use the threshold
     X_test_graph[X_test_graph>=thresh]=1
-    #convert distance to similarity
+    # convert distance to similarity
     X_test_graph_similarity=1-X_test_graph
-    #get test accuracy
+    # get test accuracy
     test_accuracy=get_accuracy_test(X_train_graph_similarity, X_test_graph_similarity, cluster_labels, y_test, result_classes_per_cluster)
     results['test_accuracy'].append(test_accuracy)
 
