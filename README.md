@@ -41,7 +41,7 @@ The dataset was split, allocating 67% for the training set and 33% for validatio
 ### Iterated Hold-Out Procedure (Model Selection)
 To select the optimal threshold for computing the affinity matrix and determine the best parameters for the MLPClassifier, an iterated hold-out procedure was performed. The training set was divided into 67% for training and 33% for testing, and this process was repeated 1000 times.
 
-Note: for more details on this section please have a look at _project_francesco_canonaco.ipynb_, _utils_classification_model.py_, _utils_spectral_clustering.py_
+Note: for more details on this section and the following ones please have a look at _project_francesco_canonaco.ipynb_, _utils_classification_model.py_, _utils_spectral_clustering.py_
 
 ### Spectral Clustering as a Classifier
 To create a classification approach by adapting the unsupervised procedure of spectral clustering, different thresholds were applied to compute the affinity matrix. Here's how the new spectral clustering works:
