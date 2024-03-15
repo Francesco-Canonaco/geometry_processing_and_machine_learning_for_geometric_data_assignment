@@ -36,11 +36,11 @@ The CuratedMetagenomicData package offers datasets from two distinct cohorts: on
 ### Dataset
 The dataset consists of 555 samples for both the inflammatory bowel disease (IBD) and colorectal cancer (CRC) classes. Each sample is characterized by 99 columns, representing various microbial families and their relative abundances. These relative abundance values indicate the prevalence of specific microbial families within each sample's gut microbiome. For further details, refer to the 'microbiome_family_level.csv' file located in the data folder.
 ### Splitting the Dataset
-The dataset has been splitted using 33% for the validation and 67% for the test
+The dataset has been splitted using 67% for the training set and 33% for the validation.
 ### Iterated Hold-Out Procedure (Model Selection)
-Describe how the iterated hold-out procedure was performed
+In order to select the best threshold for the computation of the affinity matrix and the best parameters for the MLPClassifier an iterated hold-out procedure was performed splitting the training set as follows: 67% training set and 33% test set. The iteration was set to 1000. 
 ### Spectral Clustering as a Classifier
-By adapting the unsupervised procedure of the spectral clustering, a classification approach was created using different threshold to compute the affinity matrix fed to the algorithm. 
+By adapting the unsupervised procedure of the spectral clustering, a classification approach was created using different thresholds to compute the affinity matrix fed to the algorithm. 
 In order to adapt a unsupervised approach to be supervised, I decided to run the spectral clustering as it follows:
 1. The affinity matrix was computed using braycurtis distance
 2. The matrix that represents a graph has been thresholded trying different values and choosing the value that optimizes the accuracy score 
@@ -48,7 +48,10 @@ In order to adapt a unsupervised approach to be supervised, I decided to run the
 4. The model represented by two cluster was tested by transforming the new sample in order to be compatible with the affinity matrix computed in the model 
 5. The transformed sample was assigned to the closest cluster.
 ### Optimization of the Spectral Clustering by Thresholding the Affinity Matrix
-Put a picture and describe the procedure
+For the optimization of the Spectral Clustering procedure, many thresholds were used. Below is a chart showing the accuracy values for different thresholds.
+
+<img src="img/optimal_threshold_spectral_clustering.png" alt="Microbiome Levels" width="600" height="200">
+
 ### Comparing MLP Classifier to Spectral Clustering
 show charts, describe the process of model selection and validation for both of them 
 
