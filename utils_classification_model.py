@@ -10,7 +10,7 @@ def iterated_hold_out_nn(X:pd.core.frame.DataFrame,y:pd.core.series.Series,itera
   for iter in range(iterations):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=iter)
     # initialize the MLPClassifier
-    mlp_classifier = MLPClassifier(hidden_layer_sizes=(100, 50), activation='relu', solver='adam', alpha=1e-5, max_iter=3, random_state=iter)
+    mlp_classifier = MLPClassifier(hidden_layer_sizes=(99, 50), activation='relu', solver='adam', alpha=1e-5, max_iter=3, random_state=iter)
     # train the neural network
     mlp_classifier.fit(X_train, y_train)
     # predict on the training set

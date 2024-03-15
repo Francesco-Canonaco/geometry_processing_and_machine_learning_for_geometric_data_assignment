@@ -48,12 +48,30 @@ In order to adapt a unsupervised approach to be supervised, I decided to run the
 4. The model represented by two cluster was tested by transforming the new sample in order to be compatible with the affinity matrix computed in the model 
 5. The transformed sample was assigned to the closest cluster.
 ### Optimization of the Spectral Clustering by Thresholding the Affinity Matrix
-For the optimization of the Spectral Clustering procedure, many thresholds were used. Below is a chart showing the accuracy values for different thresholds.
+For the optimization of the Spectral Clustering procedure, many thresholds were used. Below is a chart showing the accuracy values for different thresholds (for each threshold an iterated hold-out procedure with 1000 iterations was ran).
 
 <img src="img/optimal_threshold_spectral_clustering.png" alt="Microbiome Levels" width="600" height="200">
 
-### Comparing MLP Classifier to Spectral Clustering
-show charts, describe the process of model selection and validation for both of them 
+### Optimization of the MLPClassifier
+The MLPClassifier was optimized using the following parameters:
+hidden layers, alpha, max iterations
+In this case the parameters were optimized one by one by running an iterated hold-out with 1000 iterations having as a results the following best parameters:
+
+- hidden layers: (99,50)
+- alpha:1e-5
+- max_iter:3
+
+relu activation function and adam solver were used.
+
+### Comparing MLP Classifier and Spectral Clustering Accuracy
+The image below shows a comparison of the two best models with optimal parameters. The performances on the training and the test set are quite similar for both models telling that even with a lot of variables overfitting was handled. Furthermore, the two models perform almost the same for this problem istance. 
+
+<img src="img/iterated_holdout_comparison.png" alt="" width="600" height="200">
+
+The optimal models were trained using the whole training set and validate on 33% of the initial split. The image below shows the performance of the two models on the validation set. 
+
+<img src="img/final_comparison.png" alt="" width="600" height="200">
 
 ## Conclusion
+The two models showed to perform quite the same on this problem istance, indeed the two performances were quite similar. Eventhough the models got better results than a random guess, the performances are not quite remarkable this might be caused by the high numerosity of the variable and the fact that the number of samples wasn't enough. Sparsity may have played a crucial role too. Overall, considering the adaptation of an unsupervised algortithm and the limited amount of data the Spectral clustering classifier performed quite well. 
 What's the conclusion?
