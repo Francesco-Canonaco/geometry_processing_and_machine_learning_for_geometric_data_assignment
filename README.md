@@ -2,8 +2,7 @@
 
 
 ## Introduction
-brief introduction of the project and what's its aim
-
+In this study, I explore the adaptation of the spectral clustering algorithm to serve as a classifier, investigating its effectiveness in classifying gut microbiome data by employing different thresholds to compute the affinity matrix. 
 ## Microbiome Data 
 ### Introduction
 The human microbiome is the collection of microorganisms, that reside on or within human tissues and biofluids along with the corresponding anatomical sites.
@@ -31,47 +30,55 @@ The `curatedMetagenomicData` package offers standardized and curated human micro
 The CuratedMetagenomicData package offers datasets from two distinct cohorts: one comprising healthy individuals and the other consisting of subjects with various health conditions. Among the diseased subjects, categories include type 2 diabetes, colorectal cancer, adenoma, impaired glucose tolerance, atherosclerotic cardiovascular disease, and inflammatory bowel disease. For this specific project, individuals with inflammatory bowel disease (IBD) and colorectal cancer (CRC) were selected as subjects of interest. Furthermore, the analysis was conducted by selecting the family level. 
 
 
-## The Classification Approach
+## A Classification Approach
 
-### Dataset
+### Dataset 
 The dataset consists of 555 samples for both the inflammatory bowel disease (IBD) and colorectal cancer (CRC) classes. Each sample is characterized by 99 columns, representing various microbial families and their relative abundances. These relative abundance values indicate the prevalence of specific microbial families within each sample's gut microbiome. For further details, refer to the 'microbiome_family_level.csv' file located in the data folder.
+
+Note:for more details on this section and how the dataset was generated please have a look at _dataset_preprocessing.ipynb_ and _utils_preprocessing.py_
 ### Splitting the Dataset
-The dataset has been splitted using 67% for the training set and 33% for the validation.
+The dataset was split, allocating 67% for the training set and 33% for validation.
 ### Iterated Hold-Out Procedure (Model Selection)
-In order to select the best threshold for the computation of the affinity matrix and the best parameters for the MLPClassifier an iterated hold-out procedure was performed splitting the training set as follows: 67% training set and 33% test set. The iteration was set to 1000. 
+To select the optimal threshold for computing the affinity matrix and determine the best parameters for the MLPClassifier, an iterated hold-out procedure was performed. The training set was divided into 67% for training and 33% for testing, and this process was repeated 1000 times.
+
+Note: for more details on this section please have a look at _project_francesco_canonaco.ipynb_, _utils_classification_model.py_, _utils_spectral_clustering.py_
+
 ### Spectral Clustering as a Classifier
-By adapting the unsupervised procedure of the spectral clustering, a classification approach was created using different thresholds to compute the affinity matrix fed to the algorithm. 
-In order to adapt a unsupervised approach to be supervised, I decided to run the spectral clustering as it follows:
-1. The affinity matrix was computed using braycurtis distance
-2. The matrix that represents a graph has been thresholded trying different values and choosing the value that optimizes the accuracy score 
-3. Once the clusters were learned, a class was assigned to each of them by computing the majority class in each cluster
-4. The model represented by two cluster was tested by transforming the new sample in order to be compatible with the affinity matrix computed in the model 
-5. The transformed sample was assigned to the closest cluster.
+To create a classification approach by adapting the unsupervised procedure of spectral clustering, different thresholds were applied to compute the affinity matrix. Here's how the new spectral clustering works:
+
+- The affinity matrix was computed using the Bray-Curtis distance.
+- The graph was thresholded to optimize the accuracy score, and distance matrix was transformed to similarity. 
+- Upon learning the clusters, each cluster was assigned a class based on the majority class within it.
+- A two-cluster model was tested by transforming new samples to align with the computed affinity matrix.
+- The transformed samples were assigned to the nearest cluster.
+
 ### Optimization of the Spectral Clustering by Thresholding the Affinity Matrix
-For the optimization of the Spectral Clustering procedure, many thresholds were used. Below is a chart showing the accuracy values for different thresholds (for each threshold an iterated hold-out procedure with 1000 iterations was ran).
+To optimize the Spectral Clustering procedure, multiple thresholds were tested. The accuracy values for different thresholds are presented in the chart below. Each threshold underwent an iterated hold-out procedure with 1000 iterations.
 
 <img src="img/optimal_threshold_spectral_clustering.png" alt="Microbiome Levels" width="600" height="200">
 
 ### Optimization of the MLPClassifier
-The MLPClassifier was optimized using the following parameters:
-hidden layers, alpha, max iterations
-In this case the parameters were optimized one by one by running an iterated hold-out with 1000 iterations having as a results the following best parameters:
+The MLPClassifier underwent optimization with respect to various parameters, including hidden layers, alpha, and max iterations. Each parameter was optimized individually through an iterated hold-out process consisting of 1000 iterations. The resulting optimal parameters are as follows:
 
-- hidden layers: (99,50)
-- alpha:1e-5
-- max_iter:3
+- **Hidden Layers**: (99,50)
+- **Alpha**: 1e-5
+- **Max Iterations**: 3
 
-relu activation function and adam solver were used.
+The activation function used was ReLU, and the solver employed was Adam.
 
 ### Comparing MLP Classifier and Spectral Clustering Accuracy
-The image below shows a comparison of the two best models with optimal parameters. The performances on the training and the test set are quite similar for both models telling that even with a lot of variables overfitting was handled. Furthermore, the two models perform almost the same for this problem istance. 
+The image below illustrates a comparison between the two best-performing models with their respective optimal parameters. Both models exhibit similar performance on both the training and test sets, indicating effective handling of overfitting despite the dataset's complexity. Moreover, both models demonstrate comparable performance for this particular problem instance. 
 
 <img src="img/iterated_holdout_comparison.png" alt="" width="600" height="200">
 
-The optimal models were trained using the whole training set and validate on 33% of the initial split. The image below shows the performance of the two models on the validation set. 
+The optimal models were trained using the entire training set and validated on 33% of the initial split. The performance of both models on the validation set is illustrated in the image below.
 
 <img src="img/final_comparison.png" alt="" width="600" height="200">
 
 ## Conclusion
-The two models showed to perform quite the same on this problem istance, indeed the two performances were quite similar. Eventhough the models got better results than a random guess, the performances are not quite remarkable this might be caused by the high numerosity of the variable and the fact that the number of samples wasn't enough. Sparsity may have played a crucial role too. Overall, considering the adaptation of an unsupervised algortithm and the limited amount of data the Spectral clustering classifier performed quite well. 
-What's the conclusion?
+Both models demonstrated similar performance on this particular problem instance, with their performances being notably comparable. While the models outperformed random guessing, their performances were not particularly remarkable, possibly due to the large number of variables and the insufficient sample size. Additionally, sparsity may have influenced the results significantly. Despite these challenges, the Spectral Clustering classifier performed admirably considering the adaptation of an unsupervised algorithm and the limited amount of data available.
+
+#### Description of the folders:
+- **charts** contains an interactive version of the charts
+- **img** contains the images used in the report
+- **experiments_results** contains the result of the best threshold selection procedure
